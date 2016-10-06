@@ -37,11 +37,14 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="10q-cD-RKq">
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yy9-Mg-4ba">
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="LOGIN"/>
+                                                <connections>
+                                                    <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PaE-JU-9Gc"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -66,6 +69,12 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TVM-SH-0Xe" secondAttribute="bottom" constant="40" id="z0N-B1-N0n"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="debugTextLabel" destination="ovS-NY-hhG" id="ExE-Rf-WYM"/>
+                        <outlet property="emailTextField" destination="ltz-Dg-TZV" id="Bv2-QD-bn7"/>
+                        <outlet property="loginButton" destination="Yy9-Mg-4ba" id="xeZ-Mc-NWe"/>
+                        <outlet property="passwordTextField" destination="10q-cD-RKq" id="WEG-Qm-qbK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
