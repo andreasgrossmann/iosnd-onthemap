@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42A1DAD652800040902 /* GCDBlackBox.swift */; };
+		E14DB42D1DAE41FB00040902 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42C1DAE41FB00040902 /* MapViewController.swift */; };
+		E14DB42F1DAE447F00040902 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42E1DAE447F00040902 /* TableViewController.swift */; };
 		E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F31D97DB7300B4E754 /* AppDelegate.swift */; };
 		E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F51D97DB7300B4E754 /* LoginViewController.swift */; };
 		E17D80F91D97DB7300B4E754 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17D80F71D97DB7300B4E754 /* Main.storyboard */; };
@@ -39,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		E14DB42A1DAD652800040902 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
+		E14DB42C1DAE41FB00040902 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		E14DB42E1DAE447F00040902 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E17D80F01D97DB7300B4E754 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17D80F31D97DB7300B4E754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E17D80F51D97DB7300B4E754 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 				E14DB42A1DAD652800040902 /* GCDBlackBox.swift */,
 				E1FB90351DA634330050A0A5 /* UdacityConstants.swift */,
 				E17D80F71D97DB7300B4E754 /* Main.storyboard */,
+				E14DB42E1DAE447F00040902 /* TableViewController.swift */,
+				E14DB42C1DAE41FB00040902 /* MapViewController.swift */,
 				E17D80FA1D97DB7300B4E754 /* Assets.xcassets */,
 				E17D80FC1D97DB7300B4E754 /* LaunchScreen.storyboard */,
 				E17D80FF1D97DB7300B4E754 /* Info.plist */,
@@ -274,9 +280,11 @@
 				E1FB90341DA556960050A0A5 /* UdacityClient.swift in Sources */,
 				E1FB90361DA634330050A0A5 /* UdacityConstants.swift in Sources */,
 				E1FB90321DA54DB70050A0A5 /* StudentInformation.swift in Sources */,
+				E14DB42F1DAE447F00040902 /* TableViewController.swift in Sources */,
 				E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */,
 				E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */,
 				E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */,
+				E14DB42D1DAE41FB00040902 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

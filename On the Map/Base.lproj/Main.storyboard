@@ -86,7 +86,7 @@
         <!--On the Map-->
         <scene sceneID="RC4-3X-W4d">
             <objects>
-                <viewController id="TrI-tY-I6n" sceneMemberID="viewController">
+                <viewController id="TrI-tY-I6n" customClass="MapViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XC0-xA-krU"/>
                         <viewControllerLayoutGuide type="bottom" id="OC2-JH-iTG"/>
@@ -94,7 +94,16 @@
                     <view key="view" contentMode="scaleToFill" id="cV8-S3-lnX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="w9q-fs-tVQ"/>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="w9q-fs-tVQ" secondAttribute="trailing" id="Cva-r3-1WW"/>
+                            <constraint firstItem="w9q-fs-tVQ" firstAttribute="leading" secondItem="cV8-S3-lnX" secondAttribute="leading" id="idl-IC-0nz"/>
+                            <constraint firstItem="w9q-fs-tVQ" firstAttribute="top" secondItem="XC0-xA-krU" secondAttribute="bottom" id="lfm-oC-Owx"/>
+                            <constraint firstItem="OC2-JH-iTG" firstAttribute="top" secondItem="w9q-fs-tVQ" secondAttribute="bottom" id="oot-oc-lg8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="x4r-Am-vaj">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="0Zu-pa-9d6"/>
@@ -103,10 +112,13 @@
                             <barButtonItem image="pin" id="wtf-No-wEb"/>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="w9q-fs-tVQ" id="9d9-eA-GgV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZX0-lh-cuu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2922" y="-206"/>
+            <point key="canvasLocation" x="2920.8000000000002" y="-206.44677661169416"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="lS8-lS-0Bv">
@@ -203,13 +215,13 @@
         <!--On the Map-->
         <scene sceneID="bEX-ak-Qpd">
             <objects>
-                <tableViewController id="v4B-Sw-dZa" sceneMemberID="viewController">
+                <tableViewController id="v4B-Sw-dZa" customClass="TableViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OHy-8x-keo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="d01-vZ-XoA">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="d01-vZ-XoA">
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d01-vZ-XoA" id="rNV-Gm-8oM">
