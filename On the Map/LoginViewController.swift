@@ -21,87 +21,119 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var debugTextLabel: UILabel!
     
+    // MARK: Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
+
+    
+    
+    // MARK: Actions
+    
     @IBAction func loginPressed(_ sender: AnyObject) {
         
+        setUIEnabled(enabled: false)
         
-        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            debugTextLabel.text = "Username or Password Empty."
+        /* Check for username */
+        guard emailTextField.text != "" else {
+            self.debugTextLabel.text = "Please enter your username"
+            setUIEnabled(enabled: true)
+            return
+        }
+        
+        /* Check for password */
+        guard passwordTextField.text != "" else {
+            debugTextLabel.text = "Please enter your password"
+            setUIEnabled(enabled: true)
+            return
+        }
+        
+
+        
+        
+
+        /* Try to log the user in */
+        UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (success, errorString) in
+            
+            
+            performUIUpdatesOnMain {
+                if success! {
+                    
+                    self.completeLogin()
+                
+                } else {
+                    
+                    /* Enable the UI again and show the error */
+                    self.setUIEnabled(enabled: true)
+                    self.displayError(errorString: errorString)
+                        
+                }
+            }
+                
+        }
+        
+        
+        
+    }
+    
+    
+    
+    
+    @IBAction func signUpPressed(_ sender: AnyObject) {
+        let url = URL(string: "https://www.udacity.com/account/auth#!/signup")!
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    
+    
+    
+    // MARK: Login
+    
+    private func completeLogin() {
+        debugTextLabel.text = ""
+        let controller = storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+        present(controller, animated: true, completion: nil)
+    }
+    
+    
+    
+
+    
+
+}
+
+
+
+
+
+
+
+// MARK: - LoginViewController (Configure UI)
+
+extension LoginViewController {
+    
+    func setUIEnabled(enabled: Bool) {
+        loginButton.isEnabled = enabled
+        
+        // Set button title
+        if enabled {
+            loginButton.setTitle("LOGIN", for: UIControlState.normal)
         } else {
-            // try log the user in
-            getSessionId()
+            loginButton.setTitle("CHECKING...", for: UIControlState.disabled)
         }
-        
-        
     }
     
-    
-    
-    private func getSessionId() {
-        
-        
-        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/session")! as URL)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"udacity\": {\"username\": \"\(emailTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                return
-            }
-            let dataLength = data?.count
-            let r = 5...Int(dataLength!)
-            let newData = data?.subdata(in: Range(r)) /* subset response data! */
-            
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue))
-            
-            let parsedResult = (try! JSONSerialization.jsonObject(with: newData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
-            
-            print(parsedResult)
-            
-            if let userKey = (parsedResult["account"] as? [String: Any])?["key"] as? String {
-                print(userKey)
-                
-                self.getUserData(userKey: userKey)
-                
-            } else {
-                
-            }
+    func displayError(errorString: String?) {
+        if let errorString = errorString {
+            debugTextLabel.text = errorString
         }
-        task.resume()
-        
-        
-    }
-    
-    
-    
-    private func getUserData(userKey: String) {
-        
-        
-        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/users/\(userKey)")! as URL)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
-                return
-            }
-            let dataLength = data?.count
-            let r = 5...Int(dataLength!)
-            let newData = data?.subdata(in: Range(r)) /* subset response data! */
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue))
-        }
-        task.resume()
-        
-        
     }
     
 

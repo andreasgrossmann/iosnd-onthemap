@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42A1DAD652800040902 /* GCDBlackBox.swift */; };
 		E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F31D97DB7300B4E754 /* AppDelegate.swift */; };
 		E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F51D97DB7300B4E754 /* LoginViewController.swift */; };
 		E17D80F91D97DB7300B4E754 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17D80F71D97DB7300B4E754 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 		E17D81141D97DB7300B4E754 /* On_the_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D81131D97DB7300B4E754 /* On_the_MapUITests.swift */; };
 		E1FB90321DA54DB70050A0A5 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */; };
 		E1FB90341DA556960050A0A5 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90331DA556960050A0A5 /* UdacityClient.swift */; };
+		E1FB90361DA634330050A0A5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90351DA634330050A0A5 /* UdacityConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E14DB42A1DAD652800040902 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		E17D80F01D97DB7300B4E754 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17D80F31D97DB7300B4E754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E17D80F51D97DB7300B4E754 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		E17D81151D97DB7300B4E754 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		E1FB90331DA556960050A0A5 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		E1FB90351DA634330050A0A5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +106,11 @@
 			isa = PBXGroup;
 			children = (
 				E17D80F31D97DB7300B4E754 /* AppDelegate.swift */,
-				E17D80F51D97DB7300B4E754 /* LoginViewController.swift */,
 				E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */,
+				E17D80F51D97DB7300B4E754 /* LoginViewController.swift */,
 				E1FB90331DA556960050A0A5 /* UdacityClient.swift */,
+				E14DB42A1DAD652800040902 /* GCDBlackBox.swift */,
+				E1FB90351DA634330050A0A5 /* UdacityConstants.swift */,
 				E17D80F71D97DB7300B4E754 /* Main.storyboard */,
 				E17D80FA1D97DB7300B4E754 /* Assets.xcassets */,
 				E17D80FC1D97DB7300B4E754 /* LaunchScreen.storyboard */,
@@ -266,8 +272,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1FB90341DA556960050A0A5 /* UdacityClient.swift in Sources */,
+				E1FB90361DA634330050A0A5 /* UdacityConstants.swift in Sources */,
 				E1FB90321DA54DB70050A0A5 /* StudentInformation.swift in Sources */,
 				E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */,
+				E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */,
 				E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
