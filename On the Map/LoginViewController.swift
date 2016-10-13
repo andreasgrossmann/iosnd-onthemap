@@ -126,7 +126,7 @@ extension LoginViewController {
         if enabled {
             loginButton.setTitle("LOGIN", for: UIControlState.normal)
         } else {
-            loginButton.setTitle("CHECKING...", for: UIControlState.disabled)
+            loginButton.setTitle("LOGGING IN...", for: UIControlState.disabled)
         }
     }
     

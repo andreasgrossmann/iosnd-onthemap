@@ -9,16 +9,79 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
+    
+    
+    
+    
+    // MARK: Properties
+    
+    var appDelegate: AppDelegate!
+    
+    // MARK: Outlets
+    
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        appDelegate = UIApplication.shared.delegate as! AppDelegate
+        mapView.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        
+        
+        
+        
+        
+        
+        /* Try to fetch student data */
+        ParseClient.sharedInstance().fetchStudentData() { (result, error) in
+            
+            
+
+                if result != nil {
+                    
+                    print(result)
+                    
+                } else {
+                    
+                    print(error)
+                    
+                }
+            
+            
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
 
 
 
