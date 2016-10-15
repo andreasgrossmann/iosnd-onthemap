@@ -14,6 +14,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     
+    var students = [StudentInformation]()
+    
+    
+    
     
     // MARK: Properties
     
@@ -58,6 +62,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             
         }
+        
+        
+        
+        
+        
+        
+        print(students)
+        
+        
         
         
         
