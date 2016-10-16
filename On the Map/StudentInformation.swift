@@ -66,3 +66,14 @@ struct StudentInformation {
     }
 
 }
+
+
+
+
+
+class StudentModel {
+    
+    var students: [StudentInformation] = []
+    
+    static let sharedInstance = StudentModel()
+}

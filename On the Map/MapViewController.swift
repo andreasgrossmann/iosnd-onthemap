@@ -53,6 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 if result != nil {
                     
                     print(result)
+                    self.populateMap(result: result)
                     
                 } else {
                     
@@ -64,17 +65,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         
-        
-        
-        
-        
-        print(students)
-        
-        
-        
-        
-        
-        
+
         
     }
     
@@ -82,11 +73,37 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     
+    // NOTE: IT'S PROBABLY BETTER TO STORE THE STUDENT DATA IN A VARIABLE
+    // RATHER THAN PASSING THE RESULT OF THE API CALL AROUND LIKE A BRAZILIAN HOOKER
     
     
     
-    
-
+    //Function that populates the map with data
+    func populateMap(result: [StudentInformation]?){
+        
+        
+        var annotations = [MKPointAnnotation]()
+        
+        /* For each student in the data */
+        for s in result! {
+            
+            /* Get the lat and lon values to create a coordinate */
+            let lat = CLLocationDegrees(s.latitude)
+            let lon = CLLocationDegrees(s.longitude)
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            
+            /* Make the map annotation with the coordinate and other student data */
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(s.firstName) \(s.lastName)"
+            annotation.subtitle = s.mediaURL
+            
+            /* Add the annotation to the array */
+            annotations.append(annotation)
+        }
+        /* Add the annotations to the map */
+        mapView.addAnnotations(annotations)
+    }
 
     
     
