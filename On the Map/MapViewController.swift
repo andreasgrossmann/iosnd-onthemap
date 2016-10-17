@@ -14,7 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     
-    var students = [StudentInformation]()
+//    var students = [StudentInformation]()
     
     
     
@@ -45,15 +45,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         
         
-        /* Try to fetch student data */
+        /* Fetch student data */
         ParseClient.sharedInstance().fetchStudentData() { (result, error) in
             
             
 
                 if result != nil {
                     
-                    print(result)
-                    self.populateMap(result: result)
+                    StudentModel.sharedInstance.students = StudentInformation.studentFromResult(results: result?["results"] as! [[String: AnyObject]])
+                    
+                    print(StudentModel.sharedInstance.students)
+                    self.populateMap()
                     
                 } else {
                     
@@ -73,19 +75,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     
-    // NOTE: IT'S PROBABLY BETTER TO STORE THE STUDENT DATA IN A VARIABLE
-    // RATHER THAN PASSING THE RESULT OF THE API CALL AROUND LIKE A BRAZILIAN HOOKER
+
     
     
     
     //Function that populates the map with data
-    func populateMap(result: [StudentInformation]?){
+    func populateMap(){
         
         
         var annotations = [MKPointAnnotation]()
         
         /* For each student in the data */
-        for s in result! {
+        for s in StudentModel.sharedInstance.students {
             
             /* Get the lat and lon values to create a coordinate */
             let lat = CLLocationDegrees(s.latitude)

@@ -14,7 +14,7 @@ class ParseClient: NSObject {
     
     
     
-    func fetchStudentData(completionHandler: @escaping (_ result: [StudentInformation]?, _ error: String?) -> Void) {
+    func fetchStudentData(completionHandler: @escaping (_ result: [String: AnyObject]?, _ error: String?) -> Void) {
         
         
         let request = NSMutableURLRequest(url: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")! as URL)
@@ -62,23 +62,10 @@ class ParseClient: NSObject {
             let parsedResult = (try! JSONSerialization.jsonObject(with: data, options: .allowFragments)) as! [String: AnyObject]
             
             
-            
-//            let endGame = parsedResult["results"] as! [[String: AnyObject]]
-//            for end in endGame {
-//                print("@\(end)@")
-//            }
-
-            
 
 
 
-            
-            let students = StudentInformation.studentFromResult(results: parsedResult["results"] as! [[String: AnyObject]])
-            
-
-
-
-            completionHandler(students, nil)
+            completionHandler(parsedResult, nil)
             
             
             

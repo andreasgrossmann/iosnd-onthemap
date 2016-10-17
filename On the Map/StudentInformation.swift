@@ -40,9 +40,6 @@ struct StudentInformation {
     }
     
     static func studentFromResult(results: [[String: AnyObject]]) -> [StudentInformation] {
-        
-//        print(type(of: results))
-//        print(results)
 
         
         var students = [StudentInformation]()
@@ -53,14 +50,12 @@ struct StudentInformation {
                 students.append(studentInfo)
             
 //            students.append(StudentInformation(dictionary: result))
-            
-//            print(type(of: result))
+
             }
         
         
         }
         
-//        print(students)
         return students
     
     }
