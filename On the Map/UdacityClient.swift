@@ -128,6 +128,56 @@ class UdacityClient: NSObject {
     
     
     
+    // MARK: DELETE Request
+    
+    func deleteSession(completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/session")! as URL)
+        request.httpMethod = "DELETE"
+        var xsrfCookie: HTTPCookie? = nil
+        let sharedCookieStorage = HTTPCookieStorage.shared
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            if error != nil { // Handle error…
+                return
+            }
+            
+            /* Strip first 5 characters off */
+            
+            let dataLength = data?.count
+            let r = 5...Int(dataLength!)
+            let newData = data?.subdata(in: Range(r)) /* subset response data! */
+            
+            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue))
+            
+            
+            
+            
+            if let error = error {
+                print(error)
+                completionHandler(false, "Logout Failed.")
+            } else {
+                completionHandler(true, nil)
+            }
+            
+            
+            
+        }
+        task.resume()
+        
+    }
+    
+    
+    
+    
+    
     
     
     

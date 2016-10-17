@@ -61,6 +61,34 @@ class TableViewController: UITableViewController {
         
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Actions
+    
+    @IBAction func logoutPressed(_ sender: AnyObject) {
+        
+        UdacityClient.sharedInstance().deleteSession() { (success, errorString) in
+            if success {
+                
+                let viewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
+                self.present(viewController, animated: true, completion: nil)
+                
+            } else {
+                
+                print("Failed to logout")
+                
+            }
+        }
+        
+    }
+    
+    
 
 
 

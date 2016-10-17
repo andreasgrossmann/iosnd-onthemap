@@ -10,7 +10,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -27,7 +27,7 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="3zK-HB-GkS">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3zK-HB-GkS">
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ltz-Dg-TZV">
                                                 <nil key="textColor"/>
@@ -83,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="122.78860569715144"/>
         </scene>
-        <!--On the Map-->
+        <!--Map View Controller-->
         <scene sceneID="RC4-3X-W4d">
             <objects>
-                <viewController id="TrI-tY-I6n" customClass="MapViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="TrI-tY-I6n" userLabel="Map View Controller" customClass="MapViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XC0-xA-krU"/>
                         <viewControllerLayoutGuide type="bottom" id="OC2-JH-iTG"/>
@@ -106,10 +106,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="x4r-Am-vaj">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="0Zu-pa-9d6"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="0Zu-pa-9d6">
+                            <connections>
+                                <action selector="logoutPressed:" destination="TrI-tY-I6n" id="kDW-TA-x2d"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="gTT-PL-W3U"/>
-                            <barButtonItem image="pin" id="wtf-No-wEb"/>
+                            <barButtonItem image="pin" id="wtf-No-wEb">
+                                <connections>
+                                    <segue destination="eEH-yd-mdg" kind="presentation" id="Yqu-Ts-z2J"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -120,10 +128,10 @@
             </objects>
             <point key="canvasLocation" x="2920.8000000000002" y="-206.44677661169416"/>
         </scene>
-        <!--View Controller-->
+        <!--Information Posting View Controller-->
         <scene sceneID="lS8-lS-0Bv">
             <objects>
-                <viewController id="eEH-yd-mdg" sceneMemberID="viewController">
+                <viewController id="eEH-yd-mdg" userLabel="Information Posting View Controller" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o1O-Pd-Jlb"/>
                         <viewControllerLayoutGuide type="bottom" id="hlV-KJ-Pt4"/>
@@ -137,24 +145,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7k-dY-4VB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3818" y="123"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="jaN-yt-zWN">
-            <objects>
-                <viewController id="Qob-c2-vOF" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="617-Xg-HLa"/>
-                        <viewControllerLayoutGuide type="bottom" id="Bqx-3K-PlJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="moj-hV-17b">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Edu-o6-VEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4697" y="122"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="YyL-4S-YyL">
@@ -252,10 +242,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="On the Map" id="Af2-Nk-TyD">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="8zu-e6-YTr"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="8zu-e6-YTr">
+                            <connections>
+                                <action selector="logoutPressed:" destination="v4B-Sw-dZa" id="lOX-aQ-fTr"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="KLI-Rt-6yB"/>
-                            <barButtonItem image="pin" id="8qN-dv-X4z"/>
+                            <barButtonItem image="pin" id="8qN-dv-X4z">
+                                <connections>
+                                    <segue destination="eEH-yd-mdg" kind="presentation" id="tbf-ac-Qdh"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
@@ -270,4 +268,7 @@
         <image name="pin" width="32" height="32"/>
         <image name="udacity-logo" width="100" height="100"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Yqu-Ts-z2J"/>
+    </inferredMetricsTieBreakers>
 </document>
