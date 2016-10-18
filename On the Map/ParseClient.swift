@@ -12,12 +12,12 @@ class ParseClient: NSObject {
     
     
     
+    // MARK: GET Student Locations
     
-    
-    func fetchStudentData(completionHandler: @escaping (_ result: [String: AnyObject]?, _ error: String?) -> Void) {
+    func getStudentLocations(completionHandler: @escaping (_ result: [String: AnyObject]?, _ error: String?) -> Void) {
         
         
-        let request = NSMutableURLRequest(url: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")! as URL)
+        let request = NSMutableURLRequest(url: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updatedAt")! as URL)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = URLSession.shared
@@ -77,6 +77,32 @@ class ParseClient: NSObject {
     }
     
     
+    
+    
+    
+    
+    
+    
+    // MARK: POST User Location
+    
+    func postStudentLocation(userKey: String, firstName: String, lastName: String, mediaURL: String, mapString: String, latitude: Double, longitude: Double, completionHandler: (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")! as URL)
+        request.httpMethod = "POST"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"uniqueKey\": \"\(userKey)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}".data(using: String.Encoding.utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+        }
+        task.resume()
+        
+    }
     
     
     

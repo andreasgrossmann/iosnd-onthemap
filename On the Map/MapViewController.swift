@@ -46,7 +46,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         
         /* Fetch student data */
-        ParseClient.sharedInstance().fetchStudentData() { (result, error) in
+        ParseClient.sharedInstance().getStudentLocations() { (result, error) in
             
             
 
@@ -54,7 +54,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                     StudentModel.sharedInstance.students = StudentInformation.studentFromResult(results: result?["results"] as! [[String: AnyObject]])
                     
-                    print(StudentModel.sharedInstance.students)
+//                    print(StudentModel.sharedInstance.students)
                     self.populateMap()
                     
                 } else {

@@ -60,13 +60,13 @@ class LoginViewController: UIViewController {
         
 
         /* Try to log the user in */
-        UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (success, errorString) in
+        UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (userKey, errorString) in
             
             
             performUIUpdatesOnMain {
-                if success! {
+                if let userKey = userKey {
                     
-                    self.completeLogin()
+                    self.getStudentWithUserKey(userKey: userKey)
                 
                 } else {
                     
@@ -90,6 +90,32 @@ class LoginViewController: UIViewController {
         let url = URL(string: "https://www.udacity.com/account/auth#!/signup")!
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    // GET Student Data
+    
+    func getStudentWithUserKey(userKey: String) {
+        UdacityClient.sharedInstance().studentWithUserKey(userKey: userKey) { (success, error) in
+            performUIUpdatesOnMain {
+                if success! {
+                    self.completeLogin()
+                } else {
+                    // error
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
     
     
     

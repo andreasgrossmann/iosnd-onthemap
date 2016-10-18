@@ -20,6 +20,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     
     
     
+    // MARK: Properties
+    
+    private var placemark: CLPlacemark? = nil
+    
+    
+    
 
     // MARK: Outlets
     
@@ -41,6 +47,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         super.viewDidLoad()
 
         configureUI(state: .MapString)
+        
+        
+        
+        
+        print(UserInformation.firstName + " " + UserInformation.lastName + ", " + UserInformation.userKey)
     }
     
     
@@ -53,24 +64,144 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         
     }
     
+    
+    
+    
+    
+    // MARK: Validate URL
+    func validateURL(_ url: String) -> Bool {
+        let pattern = "^(https?:\\/\\/)([a-zA-Z0-9_\\-~]+\\.)+[a-zA-Z0-9_\\-~\\/\\.]+$"
+        if url.range(of: pattern, options: .regularExpression) != nil {
+            return true
+        }
+        return false
+    }
+    
+//    // MARK: Automatically prefix hyperlinks with https
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        if textField.tag == 1 {
+//            textField.text = "https://"
+//        }
+//    }
+    
+    
+    
+    
+    
     @IBAction func submitPressed(_ sender: AnyObject) {
         
         if uiState == "MapString" {
             
             // Geolocate
-            print("geolocating")
-            configureUI(state: .MediaURL)
+            
+            
+            
+            
+            // check for empty string
+            if mapStringTextField.text!.isEmpty {
+                displayAlert(message: AppConstants.Errors.MapStringEmpty)
+                return
+            }
+            
+            
+            
+            
+            
+            // add placemark
+
+            performUIUpdatesOnMain {
+                let geocoder = CLGeocoder()
+          
+                geocoder.geocodeAddressString(self.mapStringTextField.text!, completionHandler: { (results, error) in
+                    if let _ = error {
+                        self.displayAlert(message: AppConstants.Errors.CouldNotGeocode)
+                    }
+                    else if (results!.isEmpty){
+                        self.displayAlert(message: AppConstants.Errors.NoLocationFound)
+                    } else {
+                        self.placemark = results![0]
+                        self.configureUI(state: .MediaURL)
+                        self.postingMapView.showAnnotations([MKPlacemark(placemark: self.placemark!)], animated: true)
+                    }
+                })
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+
             
         } else if uiState == "MediaURL" {
             
             // Post to Parse
-            print("posting to parse")
+            
+            
+            
+            
+            // check for empty string
+            if mediaURLTextField.text!.isEmpty {
+                displayAlert(message: AppConstants.Errors.URLEmpty)
+                return
+            }
+            
+            if validateURL(mediaURLTextField.text!) == false {
+                displayAlert(message: "Please enter a valid URL.")
+                return
+            }
+            
+            
+            
+
+            
+            performUIUpdatesOnMain {
+                ParseClient.sharedInstance().postStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude) { (success, errorString) in
+                        if success {
+                            // success
+                        } else {
+                            // error
+                        }
+                    }
+            }
+            
+            
+            
+            
+                
+            }
+            
+            
+            
+            
+            
+            
             configureUI(state: .MapString)
             
         }
         
-    }
+
     
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Display Alert
+    
+    func displayAlert(message: String, completionHandler: ((UIAlertAction) -> Void)? = nil) {
+        performUIUpdatesOnMain {
+
+            let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: AppConstants.AlertActions.gotIt, style: .default, handler: completionHandler))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
     
     
     
@@ -86,6 +217,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             switch(state) {
             case .MapString:
                 self.uiState = "MapString"
+                self.postingMapView.isHidden = true
                 self.topSectionView.backgroundColor = AppConstants.UI.UdacityGrey
                 self.midSectionView.backgroundColor = AppConstants.UI.UdacityBlue
                 self.bottomSectionView.backgroundColor = AppConstants.UI.UdacityGrey
@@ -101,6 +233,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                     self.postingMapView.centerCoordinate = location
                 }
                 self.uiState = "MediaURL"
+                self.postingMapView.isHidden = false
                 self.topSectionView.backgroundColor = AppConstants.UI.UdacityBlue
                 self.midSectionView.backgroundColor = UIColor.clear
                 self.bottomSectionView.backgroundColor = UIColor.clear
@@ -119,3 +252,4 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
 
 
 }
+

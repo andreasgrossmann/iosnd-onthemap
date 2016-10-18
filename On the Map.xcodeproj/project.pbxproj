@@ -14,6 +14,7 @@
 		E14DB4371DAE9D8200040902 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB4361DAE9D8200040902 /* ParseClient.swift */; };
 		E14DB43B1DB5249100040902 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43A1DB5249100040902 /* InformationPostingViewController.swift */; };
 		E14DB43D1DB5631E00040902 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43C1DB5631E00040902 /* AppConstants.swift */; };
+		E14DB43F1DB6540500040902 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43E1DB6540500040902 /* UserInformation.swift */; };
 		E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F31D97DB7300B4E754 /* AppDelegate.swift */; };
 		E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F51D97DB7300B4E754 /* LoginViewController.swift */; };
 		E17D80F91D97DB7300B4E754 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17D80F71D97DB7300B4E754 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		E14DB4361DAE9D8200040902 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		E14DB43A1DB5249100040902 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 		E14DB43C1DB5631E00040902 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		E14DB43E1DB6540500040902 /* UserInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
 		E17D80F01D97DB7300B4E754 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17D80F31D97DB7300B4E754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E17D80F51D97DB7300B4E754 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				E1FB90351DA634330050A0A5 /* UdacityConstants.swift */,
 				E14DB4361DAE9D8200040902 /* ParseClient.swift */,
 				E14DB4301DAE87B200040902 /* ParseConstants.swift */,
+				E14DB43E1DB6540500040902 /* UserInformation.swift */,
 				E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */,
 				E17D80F51D97DB7300B4E754 /* LoginViewController.swift */,
 				E14DB42C1DAE41FB00040902 /* MapViewController.swift */,
@@ -299,6 +302,7 @@
 				E14DB43D1DB5631E00040902 /* AppConstants.swift in Sources */,
 				E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */,
 				E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */,
+				E14DB43F1DB6540500040902 /* UserInformation.swift in Sources */,
 				E14DB43B1DB5249100040902 /* InformationPostingViewController.swift in Sources */,
 				E14DB42D1DAE41FB00040902 /* MapViewController.swift in Sources */,
 			);

@@ -33,16 +33,16 @@ struct AppConstants {
     struct AlertActions {
         static let Overwrite = "Overwrite"
         static let Cancel = "Cancel"
-        static let Dismiss = "Dismiss"
+        static let gotIt = "Got it"
     }
     
     // MARK: Errors
     
     struct Errors {
         static let UserPassEmpty = "Username or password empty."
-        static let URLEmpty = "Must enter a URL."
+        static let URLEmpty = "Please enter a URL"
         static let StudentAndPlacemarkEmpty = "Student and placemark not initialized."
-        static let MapStringEmpty = "Must enter a Location."
+        static let MapStringEmpty = "Please enter a location"
         static let CouldNotGeocode = "Could not geocode the string."
         static let NoLocationFound = "No location found."
         static let PostStudentLocationFailed = "Student location could not be posted."

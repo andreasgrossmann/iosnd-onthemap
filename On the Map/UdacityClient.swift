@@ -31,7 +31,7 @@ class UdacityClient: NSObject {
     
     // Post Request
     
-    func getSessionId(username: String, password: String, completionHandlerForSession: @escaping (_ success: Bool?, _ errorString: String?) -> Void) {
+    func getSessionId(username: String, password: String, completionHandlerForSession: @escaping (_ userKey: String?, _ errorString: String?) -> Void) {
         
         
         let request = NSMutableURLRequest(url: NSURL(string: Constants.UdacityBaseURL + Methods.Session)! as URL)
@@ -52,21 +52,21 @@ class UdacityClient: NSObject {
             /* GUARD: Was there an error? */
             guard (error == nil) else{
                 print("There was an error with your request: \(error)")
-                completionHandlerForSession(false, "Login Failed.")
+                completionHandlerForSession(nil, "Login Failed.")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                 print("Your request returned a status code other than 2xx!")
-                completionHandlerForSession(false, "Your request returned a status code other than 2xx!")
+                completionHandlerForSession(nil, "Your request returned a status code other than 2xx!")
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request!")
-                completionHandlerForSession(false, "No data was returned by the request!")
+                completionHandlerForSession(nil, "No data was returned by the request!")
                 return
             }
             
@@ -79,18 +79,19 @@ class UdacityClient: NSObject {
             let r = 5...Int(dataLength)
             let newData = data.subdata(in: Range(r)) /* subset response data! */
             
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue))
+//            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue))
             
             /* Parse data */
             
             let parsedResult = (try! JSONSerialization.jsonObject(with: newData, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
             
-            print(parsedResult)
+//            print(parsedResult)
             
             if let userKey = (parsedResult["account"] as? [String: Any])?["key"] as? String {
-                print(userKey)
+//                print(userKey)
                 
-                completionHandlerForSession(true, nil)
+                UserInformation.userKey = userKey
+                completionHandlerForSession(userKey, nil)
                 
             } else {
                 
@@ -104,25 +105,43 @@ class UdacityClient: NSObject {
     
     
     // Get Request
-    
-//    private func getUserData(userKey: String) {
-//        
-//        
-//        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/users/\(userKey)")! as URL)
-//        let session = URLSession.shared
-//        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-//            if error != nil { // Handle error...
-//                return
-//            }
-//            let dataLength = data?.count
-//            let r = 5...Int(dataLength!)
-//            let newData = data?.subdata(in: Range(r)) /* subset response data! */
-//            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue))
-//        }
-//        task.resume()
-//        
-//        
-//    }
+
+    func studentWithUserKey(userKey: String, completionHandler: @escaping (_ success: Bool?, _ errorString: String?) -> Void) {
+        
+        //        print(userKey)
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/users/\(userKey)")! as URL)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error
+                return
+            }
+            let dataLength = data?.count
+            let r = 5...Int(dataLength!)
+            let newData = data?.subdata(in: Range(r)) /* subset response data! */
+            
+            
+            
+            /* Parse data */
+            
+            let parsedResult = (try! JSONSerialization.jsonObject(with: newData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
+            
+            let userData = parsedResult["user"] as! NSDictionary
+            let firstName = userData["first_name"] as! String
+            let lastName = userData["last_name"] as! String
+            UserInformation.firstName = firstName
+            UserInformation.lastName = lastName
+            
+            
+            
+            completionHandler(true, nil)
+            
+            
+        }
+        task.resume()
+        
+        
+    }
     
     
     
@@ -173,6 +192,10 @@ class UdacityClient: NSObject {
         task.resume()
         
     }
+    
+    
+    
+
     
     
     
