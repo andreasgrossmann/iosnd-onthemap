@@ -113,7 +113,11 @@ the Udacity Studentfinder!</string>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="gTT-PL-W3U"/>
+                            <barButtonItem systemItem="refresh" id="gTT-PL-W3U">
+                                <connections>
+                                    <action selector="refreshPressed:" destination="TrI-tY-I6n" id="7e9-ED-mdy"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="pin" id="wtf-No-wEb">
                                 <connections>
                                     <segue destination="eEH-yd-mdg" kind="presentation" id="Yqu-Ts-z2J"/>
@@ -164,7 +168,7 @@ the Udacity Studentfinder!</string>
                                 <frame key="frameInset" width="375" height="228"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter the link you want to share" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m9C-K9-spw">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter the link you want to share" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m9C-K9-spw">
                                         <frame key="frameInset" minX="62" minY="105" width="250" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
@@ -328,7 +332,11 @@ studying today?</string>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="KLI-Rt-6yB"/>
+                            <barButtonItem systemItem="refresh" id="KLI-Rt-6yB">
+                                <connections>
+                                    <action selector="refreshPressed:" destination="v4B-Sw-dZa" id="Sav-b4-NFx"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="pin" id="8qN-dv-X4z">
                                 <connections>
                                     <segue destination="eEH-yd-mdg" kind="presentation" id="tbf-ac-Qdh"/>
@@ -349,6 +357,6 @@ studying today?</string>
         <image name="udacity-logo" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Yqu-Ts-z2J"/>
+        <segue reference="tbf-ac-Qdh"/>
     </inferredMetricsTieBreakers>
 </document>

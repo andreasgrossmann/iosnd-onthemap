@@ -48,7 +48,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
 
         configureUI(state: .MapString)
         
-        
+        // Required to automatically prefix hyperlinks with https
+        mediaURLTextField.delegate = self
         
         
         print(UserInformation.firstName + " " + UserInformation.lastName + ", " + UserInformation.userKey)
@@ -77,12 +78,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         return false
     }
     
-//    // MARK: Automatically prefix hyperlinks with https
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        if textField.tag == 1 {
-//            textField.text = "https://"
-//        }
-//    }
+    // MARK: Automatically prefix hyperlinks with https
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag == 1 {
+            textField.text = "https://"
+        }
+    }
     
     
     

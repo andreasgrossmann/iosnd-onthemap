@@ -42,29 +42,32 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         
         
+        // NOTE: WHEN THE STUDENT DATA TAKES A BIT LONGER TO LOAD (IS NOT AVAILABLE WHEN THE MAP VIEW APPEARS FOR EXAMPLE)
+        // IT WILL SHOW ON THE MAP VIEW ONLY AFTER ONE WENT TO THE TABLE VIEW (THE NEXT TIME THE VIEW APPEARS)
+        // I THINK THE PROBLEM MIGHT BE THAT IT'S TRYING TO POPULATE THE MAP BEFORE THE STUDENT DATA FINISHED FETCHING
+        // SO WE WOULD NEED A CALLBACK TO RESOLVE THIS...?
+        // OR MAYBE THIS METHOD SHOULDN'T BE IN THE HELPER FILE...?
+        
+        // RE(POPULATING) THE MAP AND REFRESHING THE TABLE NEEDS TO BE PART OF UPDATING ANYWAY, OTHERWISE WE'RE ONLY UPDATING THE DATA MODEL
+        // WE COULD JUST CALL POPULATEMAP() AND RELOADTABLEDATA() WHEN REFRESH IS TAPPED
         
         
-        
-        /* Fetch student data */
-        ParseClient.sharedInstance().getStudentLocations() { (result, error) in
+        Helpers.sharedInstance().fetchStudentData() { (success, error) in
             
-            
-
-                if result != nil {
-                    
-                    StudentModel.sharedInstance.students = StudentInformation.studentFromResult(results: result?["results"] as! [[String: AnyObject]])
-                    
-//                    print(StudentModel.sharedInstance.students)
-                    self.populateMap()
-                    
-                } else {
-                    
-                    print(error)
-                    
-                }
-            
+            if success {
+                
+                self.populateMap()
+                
+            } else {
+                
+                // error
+                
+            }
             
         }
+        
+        
+
         
         
 
@@ -93,6 +96,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
     }
+    
+    @IBAction func refreshPressed(_ sender: AnyObject) {
+        
+        Helpers.sharedInstance().fetchStudentData() { (success, error) in
+            
+            if success {
+                
+                self.populateMap()
+                
+            } else {
+                
+                // error
+                
+            }
+            
+        }
+        
+    }
+    
+    
     
     
 

@@ -90,6 +90,23 @@ class TableViewController: UITableViewController {
         
     }
     
+    @IBAction func refreshPressed(_ sender: AnyObject) {
+        
+        Helpers.sharedInstance().fetchStudentData() { (success, error) in
+            
+            if success {
+                
+                self.tableView.reloadData()
+                
+            } else {
+                
+                // error
+                
+            }
+            
+        }
+        
+    }
     
 
 
