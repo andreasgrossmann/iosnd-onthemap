@@ -161,7 +161,13 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             performUIUpdatesOnMain {
                 ParseClient.sharedInstance().postStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude) { (success, errorString) in
                         if success {
+                            
                             // success
+                            
+//                            self.displayAlert(message: "Awesome, we just put your location on the map.")
+                            self.dismiss(animated: true, completion: nil)
+                            
+                            
                         } else {
                             // error
                         }
@@ -179,8 +185,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             
             
             
-            configureUI(state: .MapString)
-            
+//            configureUI(state: .MapString)
+        
         }
         
 
@@ -193,16 +199,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     
     
     
-    // MARK: Display Alert
-    
-    func displayAlert(message: String, completionHandler: ((UIAlertAction) -> Void)? = nil) {
-        performUIUpdatesOnMain {
 
-            let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: AppConstants.AlertActions.gotIt, style: .default, handler: completionHandler))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
     
     
     

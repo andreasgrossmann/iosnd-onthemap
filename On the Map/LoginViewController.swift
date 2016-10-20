@@ -43,14 +43,14 @@ class LoginViewController: UIViewController {
         
         /* Check for username */
         guard emailTextField.text != "" else {
-            self.debugTextLabel.text = "Please enter your username"
+            displayAlert(message: "Please enter your username.")
             setUIEnabled(enabled: true)
             return
         }
         
         /* Check for password */
         guard passwordTextField.text != "" else {
-            debugTextLabel.text = "Please enter your password"
+            displayAlert(message: "Please enter your password.")
             setUIEnabled(enabled: true)
             return
         }
@@ -72,7 +72,7 @@ class LoginViewController: UIViewController {
                     
                     /* Enable the UI again and show the error */
                     self.setUIEnabled(enabled: true)
-                    self.displayError(errorString: errorString)
+                    self.displayAlert(message: errorString!)
                         
                 }
             }
@@ -156,11 +156,11 @@ extension LoginViewController {
         }
     }
     
-    func displayError(errorString: String?) {
-        if let errorString = errorString {
-            debugTextLabel.text = errorString
-        }
-    }
+//    func displayError(errorString: String?) {
+//        if let errorString = errorString {
+//            debugTextLabel.text = errorString
+//        }
+//    }
     
 
 }

@@ -145,12 +145,36 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             /* Add the annotation to the array */
             annotations.append(annotation)
         }
-        /* Add the annotations to the map */
-        mapView.addAnnotations(annotations)
+        
+        performUIUpdatesOnMain {
+            /* Add the annotations to the map */
+            self.mapView.addAnnotations(annotations)
+        }
+        
     }
 
     
     
+    
+    
+    
+    
+    // MARK: Open annotation's mediaURL in browser when tapped
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "MapViewAnnotation")
+        view.canShowCallout = true
+        view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // Make sure URL is in correct format
+        let mediaURL = URL(string: Helpers.sharedInstance().formatURL(url: ((view.annotation?.subtitle)!)!))
+        UIApplication.shared.open(mediaURL!, options: [:], completionHandler: nil)
+    }
+    
+
     
     
     

@@ -51,13 +51,10 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print(StudentModel.sharedInstance.students[indexPath.row].mediaURL) // Note: This won't open URLs that are missing the http(s):// prefix
-        // There should be some sort of notification when there's no valid weblink for a user...?
-        // Maybe an alert popping up
-        
-        if let url = NSURL(string: StudentModel.sharedInstance.students[indexPath.row].mediaURL) {
+        // Make sure URL is in correct format
+        if let url = URL(string: Helpers.sharedInstance().formatURL(url: StudentModel.sharedInstance.students[indexPath.row].mediaURL)) {
             
-            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
             
         }
         

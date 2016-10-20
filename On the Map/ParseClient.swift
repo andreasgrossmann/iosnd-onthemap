@@ -85,7 +85,7 @@ class ParseClient: NSObject {
     
     // MARK: POST User Location
     
-    func postStudentLocation(userKey: String, firstName: String, lastName: String, mediaURL: String, mapString: String, latitude: Double, longitude: Double, completionHandler: (_ success: Bool, _ errorString: String?) -> Void) {
+    func postStudentLocation(userKey: String, firstName: String, lastName: String, mediaURL: String, mapString: String, latitude: Double, longitude: Double, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
         let request = NSMutableURLRequest(url: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")! as URL)
         request.httpMethod = "POST"
@@ -99,6 +99,10 @@ class ParseClient: NSObject {
                 return
             }
             print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+            
+            
+            completionHandler(true, nil)
+            
         }
         task.resume()
         

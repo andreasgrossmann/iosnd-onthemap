@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Helpers: NSObject {
     
@@ -46,6 +47,43 @@ class Helpers: NSObject {
     
     
     
+    
+//    // MARK: Activity Indicator
+//    
+//    func activityIndicator(view: UIView, show: Bool) {
+//        
+//        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+//        activityIndicator.center = view.center
+//        activityIndicator.hidesWhenStopped = true
+//        view.addSubview(activityIndicator)
+//        
+//        if show == true {
+//            activityIndicator.startAnimating()
+//        } else {
+//            activityIndicator.stopAnimating()
+//        }
+//        
+//        
+//    }
+    
+    
+    
+    
+    
+    
+    // remove spaces from url and add missing http:
+    func formatURL(url: String) -> String {
+        var formattedURL = url
+        if formattedURL.characters.first != "h"  && formattedURL.characters.first != "H"{
+            formattedURL = "http://\(formattedURL)"
+        }
+        return String(formattedURL.characters.filter { !" ".characters.contains($0) })
+    }
+    
+    
+    
+    
+    
     // MARK: Shared Instance
     
     class func sharedInstance() -> Helpers {
@@ -53,6 +91,28 @@ class Helpers: NSObject {
             static var sharedInstance = Helpers()
         }
         return Singleton.sharedInstance
+    }
+    
+}
+
+
+
+
+
+
+
+
+extension UIViewController {
+    
+    // MARK: Display Alert
+    
+    func displayAlert(message: String, completionHandler: ((UIAlertAction) -> Void)? = nil) {
+        performUIUpdatesOnMain {
+            
+            let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: AppConstants.AlertActions.gotIt, style: .default, handler: completionHandler))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }
