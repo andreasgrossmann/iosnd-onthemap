@@ -15,9 +15,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     
     // MARK: UI State
     
-    private enum UIState { case MapString, MediaURL }
+    enum UIState { case MapString, MediaURL }
     var uiState = "MapString"
-    
     
     
     // MARK: Properties
@@ -53,6 +52,59 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         
         
         print(UserInformation.firstName + " " + UserInformation.lastName + ", " + UserInformation.userKey)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+
+        // See if the current user has posted any locations before
+        
+        ParseClient.sharedInstance().getUserLocations(userKey: UserInformation.userKey) { (success, error) in
+            
+            if success! {
+                
+                // If any locations are returned, we know that this user has posted before
+                
+                // WE DON'T EVEN NEED TO RETURN ANY DATA TO HERE, JUST SAVE IT DIRECTLY TO UserInformation
+                
+                if UserInformation.mapString.isEmpty {
+                    
+                    print("This user hasn't posted before")
+                    
+                } else {
+                    
+                    self.displayAlert(message: "Looks like you already posted a location. If you continue, we'll update your previous location.")
+                    
+                    performUIUpdatesOnMain {
+                        self.mapStringTextField.text = UserInformation.mapString.capitalized
+                    }
+                    
+                }
+                
+                
+                
+                // IF THEY HAVE POSTED BEFORE, THEY SHOULD SEE THEIR LAST LOCATION PRE-ENTERED IN THE TEXTFIELD
+                // WE CAN ALSO PRE-FILL THEIR MEDIAURL (WE CAN GET THIS INFORMATION FROM UserInformation)
+                
+                // THE SUBMIT BUTTON WILL READ "UPDATE"
+                
+                
+                
+                
+            } else {
+                
+                
+                // error
+                
+                
+            }
+            
+        }
+        
+        
+        
     }
     
     
@@ -123,13 +175,31 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                         self.placemark = results![0]
                         self.configureUI(state: .MediaURL)
                         self.postingMapView.showAnnotations([MKPlacemark(placemark: self.placemark!)], animated: true)
+                        
+                        
+                        
+                        // Try to prefill the mediaURL field
+                        // If we find a mediaURL, they have posted before
+                        // Change submit button title accordingly
+                        
+                        if UserInformation.mediaURL != "" {
+                            
+                            performUIUpdatesOnMain {
+                                self.mediaURLTextField.text = UserInformation.mediaURL
+                                self.submitButton.setTitle("UPDATE", for: UIControlState.normal)
+                            }
+                            
+                        }
+                        
+                        
+                        
                     }
                 })
                 
             }
             
             
-            
+            print(UserInformation.objectId)
             
             
             
@@ -138,33 +208,42 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             
         } else if uiState == "MediaURL" {
             
-            // Post to Parse
             
-            
-            
-            
-            // check for empty string
-            if mediaURLTextField.text!.isEmpty {
-                displayAlert(message: AppConstants.Errors.URLEmpty)
-                return
-            }
-            
-            if validateURL(mediaURLTextField.text!) == false {
-                displayAlert(message: "Please enter a valid URL.")
-                return
-            }
-            
-            
+            // NOTE THIS WILL ONLY RUN WHEN YOU PRESS SUBMIT ON THE MEDIA URL VIEW !!!
             
 
             
-            performUIUpdatesOnMain {
-                ParseClient.sharedInstance().postStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude) { (success, errorString) in
+            if UserInformation.objectId.isEmpty {
+                
+                // User hasn't posted before
+                // Post to Parse
+                
+                
+                // check for empty string
+                if mediaURLTextField.text!.isEmpty {
+                    displayAlert(message: AppConstants.Errors.URLEmpty)
+                    return
+                }
+                
+                if validateURL(mediaURLTextField.text!) == false {
+                    displayAlert(message: "Please enter a valid URL.")
+                    return
+                }
+                
+                
+                
+                
+                
+                
+                // Post user location to Parse
+                
+                performUIUpdatesOnMain {
+                    ParseClient.sharedInstance().postStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude) { (success, errorString) in
                         if success {
                             
                             // success
                             
-//                            self.displayAlert(message: "Awesome, we just put your location on the map.")
+                            //                            self.displayAlert(message: "Awesome, we just put your location on the map.")
                             self.dismiss(animated: true, completion: nil)
                             
                             
@@ -172,11 +251,53 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                             // error
                         }
                     }
-            }
-            
-            
-            
-            
+                }
+                
+                
+            } else {
+                
+
+                // User has posted before
+                // Update their information on Parse
+
+                
+                
+                
+                // Check URL again as user could have tampered with it after it was prefilled
+                
+                if mediaURLTextField.text!.isEmpty {
+                    displayAlert(message: AppConstants.Errors.URLEmpty)
+                    return
+                }
+                
+                if validateURL(mediaURLTextField.text!) == false {
+                    displayAlert(message: "Please enter a valid URL.")
+                    return
+                }
+
+                // WE SHOULD PROBABLY CHECK FOR PRESENCE OF objectId SOMEWHERE UP HERE BEFORE...?
+                // Update user location on Parse
+                
+                performUIUpdatesOnMain {
+                    ParseClient.sharedInstance().updateStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude, objectId: UserInformation.objectId) { (success, errorString) in
+                        if success {
+                            
+                            // success
+                            
+                            //                            self.displayAlert(message: "Awesome, we just put your location on the map.")
+                            self.dismiss(animated: true, completion: nil)
+                            
+                            
+                        } else {
+                            // error
+                        }
+                    }
+                }
+                
+                
+                
+                
+                
                 
             }
             
@@ -185,9 +306,14 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             
             
             
-//            configureUI(state: .MapString)
-        
+
+            
         }
+            
+            
+
+        
+    }
         
 
     
