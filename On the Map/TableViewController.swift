@@ -18,7 +18,22 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
+        Helpers.sharedInstance().fetchStudentData() { (success, error) in
+            
+            if success {
+                
+                // Reload table data
+                performUIUpdatesOnMain {
+                    self.tableView.reloadData()
+                }
+                
+            } else {
+                
+                // error
+                
+            }
+            
+        }
     }
     
     
@@ -128,6 +143,9 @@ class TableViewController: UITableViewController {
             
             
             
+
+            
+            
             
             
         }
@@ -166,7 +184,9 @@ class TableViewController: UITableViewController {
             
             if success {
                 
-                self.tableView.reloadData()
+                performUIUpdatesOnMain {
+                    self.tableView.reloadData()
+                }
                 
             } else {
                 

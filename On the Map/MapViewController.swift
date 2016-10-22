@@ -56,7 +56,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if success {
                 
-                self.populateMap()
+                // Remove map annotations and repopulate
+                performUIUpdatesOnMain {
+                    self.mapView.removeAnnotations(self.mapView.annotations)
+                    self.populateMap()
+                }
                 
             } else {
                 
@@ -103,7 +107,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if success {
                 
-                self.populateMap()
+                // Remove map annotations and repopulate
+                performUIUpdatesOnMain {
+                    self.mapView.removeAnnotations(self.mapView.annotations)
+                    self.populateMap()
+                }
                 
             } else {
                 
@@ -146,10 +154,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotations.append(annotation)
         }
         
-        performUIUpdatesOnMain {
-            /* Add the annotations to the map */
-            self.mapView.addAnnotations(annotations)
-        }
+
+        /* Add the annotations to the map */
+        self.mapView.addAnnotations(annotations)
+
         
     }
 
