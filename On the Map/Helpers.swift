@@ -48,23 +48,7 @@ class Helpers: NSObject {
     
     
     
-//    // MARK: Activity Indicator
-//    
-//    func activityIndicator(view: UIView, show: Bool) {
-//        
-//        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-//        activityIndicator.center = view.center
-//        activityIndicator.hidesWhenStopped = true
-//        view.addSubview(activityIndicator)
-//        
-//        if show == true {
-//            activityIndicator.startAnimating()
-//        } else {
-//            activityIndicator.stopAnimating()
-//        }
-//        
-//        
-//    }
+
     
     
     

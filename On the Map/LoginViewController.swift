@@ -39,6 +39,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginPressed(_ sender: AnyObject) {
         
+
+        
         setUIEnabled(enabled: false)
         
         /* Check for username */
@@ -57,7 +59,7 @@ class LoginViewController: UIViewController {
         
 
         
-        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         /* Try to log the user in */
         UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (userKey, errorString) in
@@ -71,6 +73,7 @@ class LoginViewController: UIViewController {
                 } else {
                     
                     /* Enable the UI again and show the error */
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.setUIEnabled(enabled: true)
                     self.displayAlert(message: errorString!)
                         
@@ -123,7 +126,8 @@ class LoginViewController: UIViewController {
     // MARK: Login
     
     private func completeLogin() {
-        debugTextLabel.text = ""
+//        debugTextLabel.text = ""
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         let controller = storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
         present(controller, animated: true, completion: nil)
     }

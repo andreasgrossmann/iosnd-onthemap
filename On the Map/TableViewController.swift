@@ -180,12 +180,15 @@ class TableViewController: UITableViewController {
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         Helpers.sharedInstance().fetchStudentData() { (success, error) in
             
             if success {
                 
                 performUIUpdatesOnMain {
                     self.tableView.reloadData()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
                 
             } else {

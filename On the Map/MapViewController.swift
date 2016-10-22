@@ -52,6 +52,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // WE COULD JUST CALL POPULATEMAP() AND RELOADTABLEDATA() WHEN REFRESH IS TAPPED
         
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         Helpers.sharedInstance().fetchStudentData() { (success, error) in
             
             if success {
@@ -61,6 +63,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.populateMap()
                 }
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             } else {
                 
@@ -103,6 +107,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         Helpers.sharedInstance().fetchStudentData() { (success, error) in
             
             if success {
@@ -111,6 +117,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 performUIUpdatesOnMain {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.populateMap()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
                 
             } else {
@@ -119,7 +126,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
             }
             
+            
+            
         }
+
         
     }
     

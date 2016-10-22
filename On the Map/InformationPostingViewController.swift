@@ -163,15 +163,27 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             // add placemark
 
             performUIUpdatesOnMain {
+                
+                
+                let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+                activityIndicator.center = self.view.center
+                activityIndicator.startAnimating()
+                self.view.addSubview(activityIndicator)
+
+                
+                
                 let geocoder = CLGeocoder()
           
                 geocoder.geocodeAddressString(self.mapStringTextField.text!, completionHandler: { (results, error) in
                     if let _ = error {
+                        activityIndicator.stopAnimating()
                         self.displayAlert(message: AppConstants.Errors.CouldNotGeocode)
                     }
                     else if (results!.isEmpty){
+                        activityIndicator.stopAnimating()
                         self.displayAlert(message: AppConstants.Errors.NoLocationFound)
                     } else {
+                        activityIndicator.stopAnimating()
                         self.placemark = results![0]
                         self.configureUI(state: .MediaURL)
                         self.postingMapView.showAnnotations([MKPlacemark(placemark: self.placemark!)], animated: true)
@@ -195,6 +207,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                         
                     }
                 })
+                
+                
+                
+                
+                
                 
             }
             
@@ -237,13 +254,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                 
                 // Post user location to Parse
                 
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                
                 performUIUpdatesOnMain {
                     ParseClient.sharedInstance().postStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude) { (success, errorString) in
                         if success {
                             
                             // success
                             
-                            //                            self.displayAlert(message: "Awesome, we just put your location on the map.")
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             self.dismiss(animated: true, completion: nil)
                             
                             
@@ -278,13 +297,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                 // WE SHOULD PROBABLY CHECK FOR PRESENCE OF objectId SOMEWHERE UP HERE BEFORE...?
                 // Update user location on Parse
                 
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                
                 performUIUpdatesOnMain {
                     ParseClient.sharedInstance().updateStudentLocation(userKey: UserInformation.userKey, firstName: UserInformation.firstName, lastName: UserInformation.lastName, mediaURL: self.mediaURLTextField.text!, mapString: self.mapStringTextField.text!, latitude: self.placemark!.location!.coordinate.latitude, longitude: self.placemark!.location!.coordinate.longitude, objectId: UserInformation.objectId) { (success, errorString) in
                         if success {
                             
                             // success
                             
-                            //                            self.displayAlert(message: "Awesome, we just put your location on the map.")
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             self.dismiss(animated: true, completion: nil)
                             
                             
