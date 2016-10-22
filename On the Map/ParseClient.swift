@@ -142,15 +142,30 @@ class ParseClient: NSObject {
             
             let userLocations = parsedResult["results"] as! [[String: AnyObject]]
             
-            // We'll use the last location, which would be the most recent one
-
-            // NOTE: USE SOME IF LET HERE, SO THAT WE WON'T CRASH IF WORSE COMES TO WORSE
+            print(userLocations)
             
-            UserInformation.latitude = userLocations.last?["latitude"] as! Double
-            UserInformation.longitude = userLocations.last?["longitude"] as! Double
-            UserInformation.mapString = userLocations.last?["mapString"] as! String
-            UserInformation.mediaURL = userLocations.last?["mediaURL"] as! String
-            UserInformation.objectId = userLocations.last?["objectId"] as! String
+            // We'll use the last location, which would be the most recent one
+            // Test if it exists and if it does, store it in user data model
+            
+            if let userLatitude = userLocations.last?["latitude"] as? Double {
+                UserInformation.latitude = userLatitude
+            }
+            
+            if let userLongitude = userLocations.last?["longitude"] as? Double {
+                UserInformation.longitude = userLongitude
+            }
+            
+            if let userMapString = userLocations.last?["mapString"] as? String {
+                UserInformation.mapString = userMapString
+            }
+            
+            if let userMediaURL = userLocations.last?["mediaURL"] as? String {
+                UserInformation.mediaURL = userMediaURL
+            }
+            
+            if let userObjectId = userLocations.last?["objectId"] as? String {
+                UserInformation.objectId = userObjectId
+            }
             
             
             completionHandler(true, nil)
@@ -194,6 +209,44 @@ class ParseClient: NSObject {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"uniqueKey\": \"\(userKey)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}".data(using: String.Encoding.utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+            
+            
+            completionHandler(true, nil)
+            
+        }
+        task.resume()
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: DELETE user location
+    
+    func deleteStudentLocation(objectId: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        print(objectId)
+        
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(objectId)")!)
+        
+        print(request)
+        
+        request.httpMethod = "DELETE"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error…

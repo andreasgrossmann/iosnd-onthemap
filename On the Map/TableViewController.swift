@@ -40,7 +40,7 @@ class TableViewController: UITableViewController {
         
         
         cell.textLabel?.text = studentTable.firstName + " " + studentTable.lastName
-        cell.detailTextLabel?.text = studentTable.mediaURL
+        cell.detailTextLabel?.text = studentTable.mapString.capitalized
     
         
         return cell
@@ -51,6 +51,9 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+//        let thisRowStudent = StudentModel.sharedInstance.students[indexPath.row]
+//        print(thisRowStudent.uniqueKey)
+        
         // Make sure URL is in correct format
         if let url = URL(string: Helpers.sharedInstance().formatURL(url: StudentModel.sharedInstance.students[indexPath.row].mediaURL)) {
             
@@ -60,6 +63,76 @@ class TableViewController: UITableViewController {
         
         
     }
+    
+    
+    
+    
+    
+    
+    
+    // Swipe to delete
+    // WE NEED TO CHECK THAT THE USER CAN ONLY DELETE THEIR OWN ENTRIES
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        let thisRowStudent = StudentModel.sharedInstance.students[indexPath.row]
+        
+        if thisRowStudent.uniqueKey == UserInformation.userKey {
+        
+            return true
+            
+        } else {
+            
+            return false
+            
+        }
+        
+        
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    
+        
+        if editingStyle == .delete {
+            
+            // Identify student for this row
+            
+            let thisRowStudent = StudentModel.sharedInstance.students[indexPath.row]
+            
+            // Remove the row
+
+            StudentModel.sharedInstance.students.remove(at: indexPath.row)
+            
+            
+            
+            // Remove student from Parse database
+            
+            performUIUpdatesOnMain {
+                ParseClient.sharedInstance().deleteStudentLocation(objectId: thisRowStudent.objectId) { (success, errorString) in
+                    if success {
+                        
+                        // success
+                        
+
+                        
+                        
+                    } else {
+                        // error
+                    }
+                }
+                
+                tableView.reloadData()
+                
+            }
+            
+            
+            
+            
+            
+        }
+    }
+    
     
     
     
