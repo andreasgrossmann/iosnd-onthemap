@@ -59,46 +59,16 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         
         
 
-        // See if the current user has posted any locations before
-        
-        ParseClient.sharedInstance().getUserLocations(userKey: UserInformation.userKey) { (success, error) in
+        if UserInformation.mapString.isEmpty {
             
-            if success! {
-                
-                // If any locations are returned, we know that this user has posted before
-                
-                // WE DON'T EVEN NEED TO RETURN ANY DATA TO HERE, JUST SAVE IT DIRECTLY TO UserInformation
-                
-                if UserInformation.mapString.isEmpty {
-                    
-                    print("This user hasn't posted before")
-                    
-                } else {
-                    
-                    self.displayAlert(message: "Looks like you already posted a location. If you continue, we'll update your previous location.")
-                    
-                    performUIUpdatesOnMain {
-                        self.mapStringTextField.text = UserInformation.mapString.capitalized
-                    }
-                    
-                }
-                
-                
-                
-                // IF THEY HAVE POSTED BEFORE, THEY SHOULD SEE THEIR LAST LOCATION PRE-ENTERED IN THE TEXTFIELD
-                // WE CAN ALSO PRE-FILL THEIR MEDIAURL (WE CAN GET THIS INFORMATION FROM UserInformation)
-                
-                // THE SUBMIT BUTTON WILL READ "UPDATE"
-                
-                
-                
-                
-            } else {
-                
-                
-                // error
-                
-                
+            print("This user hasn't posted before")
+            
+        } else {
+            
+            self.displayAlert(message: "Looks like you already posted a location. If you continue, we'll update your previous location.")
+            
+            performUIUpdatesOnMain {
+                self.mapStringTextField.text = UserInformation.mapString.capitalized
             }
             
         }
@@ -263,6 +233,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                             // success
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            
+                            
+                            // Set user's location coordinates to center the map on when view controller is dismissed
+                            UserInformation.latitude = (self.placemark!.location!.coordinate.latitude)
+                            UserInformation.longitude = (self.placemark!.location!.coordinate.longitude)
+                            
+                            UserInformation.mapString = self.mapStringTextField.text!
+                            UserInformation.mediaURL = self.mediaURLTextField.text!
+
+                            
+                            
+                            
                             self.dismiss(animated: true, completion: nil)
                             
                             
@@ -306,6 +288,20 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                             // success
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            
+                            
+                            // Set user's location coordinates to center map on when view controller is dismissed
+                            // There's only one API call in map view to check whether current user has posted before
+                            // This is to keep track of things internally
+                            
+                            UserInformation.latitude = (self.placemark!.location!.coordinate.latitude)
+                            UserInformation.longitude = (self.placemark!.location!.coordinate.longitude)
+                            
+                            UserInformation.mapString = self.mapStringTextField.text!
+                            UserInformation.mediaURL = self.mediaURLTextField.text!
+                            
+                            
+                            
                             self.dismiss(animated: true, completion: nil)
                             
                             

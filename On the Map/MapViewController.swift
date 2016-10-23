@@ -10,18 +10,9 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
+    
+    
 
-    
-    
-    
-//    var students = [StudentInformation]()
-    
-    
-    
-    
-    // MARK: Properties
-    
-    var appDelegate: AppDelegate!
     
     // MARK: Outlets
     
@@ -32,25 +23,49 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        appDelegate = UIApplication.shared.delegate as! AppDelegate
         mapView.delegate = self
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
+        // Check Parse if current user has posted a location before
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        ParseClient.sharedInstance().getUserLocations(userKey: UserInformation.userKey) { (success, error) in
+            
+            if success! {
+                
+                // If user is already on map, center map on coordinates they posted
+                
+                if UserInformation.latitude != 0.00 && UserInformation.longitude != 0.00 {
+                    
+                    performUIUpdatesOnMain {
+                        let location = CLLocationCoordinate2D(latitude: UserInformation.latitude, longitude: UserInformation.longitude)
+                        let span = MKCoordinateSpanMake(10, 10)
+                        let region = MKCoordinateRegion(center: location, span: span)
+                        self.mapView.setRegion(region, animated: true)
+                    }
+                    
+                    
+                }
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
+            } else {
+
+                // error
+
+            }
+            
+        }
         
         
         
-        // NOTE: WHEN THE STUDENT DATA TAKES A BIT LONGER TO LOAD (IS NOT AVAILABLE WHEN THE MAP VIEW APPEARS FOR EXAMPLE)
-        // IT WILL SHOW ON THE MAP VIEW ONLY AFTER ONE WENT TO THE TABLE VIEW (THE NEXT TIME THE VIEW APPEARS)
-        // I THINK THE PROBLEM MIGHT BE THAT IT'S TRYING TO POPULATE THE MAP BEFORE THE STUDENT DATA FINISHED FETCHING
-        // SO WE WOULD NEED A CALLBACK TO RESOLVE THIS...?
-        // OR MAYBE THIS METHOD SHOULDN'T BE IN THE HELPER FILE...?
-        
-        // RE(POPULATING) THE MAP AND REFRESHING THE TABLE NEEDS TO BE PART OF UPDATING ANYWAY, OTHERWISE WE'RE ONLY UPDATING THE DATA MODEL
-        // WE COULD JUST CALL POPULATEMAP() AND RELOADTABLEDATA() WHEN REFRESH IS TAPPED
-        
+
+        // Get student data from Parse
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
@@ -90,11 +105,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func logoutPressed(_ sender: AnyObject) {
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         UdacityClient.sharedInstance().deleteSession() { (success, errorString) in
             if success {
                 
                 let viewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
                 self.present(viewController, animated: true, completion: nil)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             } else {
                 

@@ -18,6 +18,8 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         Helpers.sharedInstance().fetchStudentData() { (success, error) in
             
             if success {
@@ -26,6 +28,8 @@ class TableViewController: UITableViewController {
                 performUIUpdatesOnMain {
                     self.tableView.reloadData()
                 }
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             } else {
                 
@@ -129,6 +133,17 @@ class TableViewController: UITableViewController {
                         
                         // success
                         
+                        // Reset user information locally
+                        // There's only one API call in map view to check whether current user has posted before
+                        // This is to keep track of things internally
+                        
+                        UserInformation.latitude = 0.00
+                        UserInformation.longitude = 0.00
+                        
+                        UserInformation.mapString = ""
+                        UserInformation.mediaURL = ""
+                        UserInformation.objectId = ""
+                        
 
                         
                         
@@ -163,11 +178,14 @@ class TableViewController: UITableViewController {
     
     @IBAction func logoutPressed(_ sender: AnyObject) {
         
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         UdacityClient.sharedInstance().deleteSession() { (success, errorString) in
             if success {
                 
                 let viewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
                 self.present(viewController, animated: true, completion: nil)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             } else {
                 
