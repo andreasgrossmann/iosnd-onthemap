@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: User Information
+// MARK: User information
 
 struct UserInformation {
     static var firstName = ""

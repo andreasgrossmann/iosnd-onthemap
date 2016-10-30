@@ -10,148 +10,123 @@ import Foundation
 
 class UdacityClient: NSObject {
     
-    var session: URLSession
+    // MARK: Properties
     
-    override init() {
-        session = URLSession.shared
-        super.init()
-    }
+    // Shared session
+    var session = URLSession.shared
+
+    // MARK: Request user key
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // Post Request
-    
-    func getSessionId(username: String, password: String, completionHandlerForSession: @escaping (_ userKey: String?, _ errorString: String?) -> Void) {
-        
-        
-        let request = NSMutableURLRequest(url: NSURL(string: Constants.UdacityBaseURL + Methods.Session)! as URL)
+    func getSessionId(username: String, password: String, completionHandler: @escaping (_ userKey: String?, _ error: String?) -> Void) {
+
+        /* Configure the request */
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
         
         /* Make the request */
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            
-            
 
-            
-
-            
             /* GUARD: Was there an error? */
-            guard (error == nil) else{
-                print("There was an error with your request: \(error)")
-                completionHandlerForSession(nil, "Login Failed.")
+            guard (error == nil) else {
+                completionHandler(nil, "Oops, looks like you're not connected to the internet.")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
-                completionHandlerForSession(nil, "Your request returned a status code other than 2xx!")
+                completionHandler(nil, "Please make sure you enter a valid username and password.")
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                print("No data was returned by the request!")
-                completionHandlerForSession(nil, "No data was returned by the request!")
+                completionHandler(nil, "Your request didn't return any data. Please try again later.")
                 return
             }
-            
 
-            
-            
             /* Strip first 5 characters off */
             
             let dataLength = data.count
             let r = 5...Int(dataLength)
             let newData = data.subdata(in: Range(r)) /* subset response data! */
+
+            /* Parse and use data */
             
-//            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue))
-            
-            /* Parse data */
-            
-            let parsedResult = (try! JSONSerialization.jsonObject(with: newData, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
-            
-//            print(parsedResult)
-            
-            if let userKey = (parsedResult["account"] as? [String: Any])?["key"] as? String {
-//                print(userKey)
+            if let parsedResult = (try! JSONSerialization.jsonObject(with: newData, options: JSONSerialization.ReadingOptions.allowFragments)) as? NSDictionary {
                 
-                UserInformation.userKey = userKey
-                completionHandlerForSession(userKey, nil)
-                
-            } else {
+                if let userKey = (parsedResult["account"] as? [String: Any])?["key"] as? String {
+                    
+                    
+                    UserInformation.userKey = userKey
+                    completionHandler(userKey, nil)
+                    
+                } else {
+                    
+                }
                 
             }
+
         }
+
         task.resume()
-        
-        
+
     }
     
-    
-    
-    // Get Request
+    // MARK: Identify user with key
 
-    func studentWithUserKey(userKey: String, completionHandler: @escaping (_ success: Bool?, _ errorString: String?) -> Void) {
+    func studentWithUserKey(userKey: String, completionHandler: @escaping (_ success: Bool?, _ error: String?) -> Void) {
         
-        //        print(userKey)
+        /* Configure the request */
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(userKey)")!)
         
-        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/users/\(userKey)")! as URL)
-        let session = URLSession.shared
+        /* Make the request */
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error
+
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                completionHandler(nil, "Oops, looks like you're not connected to the internet.")
                 return
             }
-            let dataLength = data?.count
-            let r = 5...Int(dataLength!)
-            let newData = data?.subdata(in: Range(r)) /* subset response data! */
             
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                completionHandler(nil, "Your request didn't return any data. Please try again later.")
+                return
+            }
+
+            let dataLength = data.count
+            let r = 5...Int(dataLength)
+            let newData = data.subdata(in: Range(r)) /* subset response data! */
+
+            /* Parse and use data */
             
-            
-            /* Parse data */
-            
-            let parsedResult = (try! JSONSerialization.jsonObject(with: newData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
-            
-            let userData = parsedResult["user"] as! NSDictionary
-            let firstName = userData["first_name"] as! String
-            let lastName = userData["last_name"] as! String
-            UserInformation.firstName = firstName
-            UserInformation.lastName = lastName
-            
-            
-            
+            if let parsedResult = (try! JSONSerialization.jsonObject(with: newData, options: JSONSerialization.ReadingOptions.allowFragments)) as? NSDictionary {
+                
+                let userData = parsedResult["user"] as! NSDictionary
+                let firstName = userData["first_name"] as! String
+                let lastName = userData["last_name"] as! String
+                UserInformation.firstName = firstName
+                UserInformation.lastName = lastName
+                
+            }
+
             completionHandler(true, nil)
-            
-            
+
         }
+        
         task.resume()
-        
-        
+
     }
     
+    // MARK: DELETE session (logout)
     
-    
-    
-    
-    // MARK: DELETE Request
-    
-    func deleteSession(completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+    func deleteSession(completionHandler: @escaping (_ success: Bool, _ error: String?) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: "https://www.udacity.com/api/session")! as URL)
+        /* Configure the request */
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "DELETE"
         var xsrfCookie: HTTPCookie? = nil
         let sharedCookieStorage = HTTPCookieStorage.shared
@@ -161,50 +136,24 @@ class UdacityClient: NSObject {
         if let xsrfCookie = xsrfCookie {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
-        let session = URLSession.shared
+        
+        /* Make the request */
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            
-            if error != nil { // Handle error…
+
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                completionHandler(false, "We weren't able to log you out. Please try again later.")
                 return
             }
-            
-            /* Strip first 5 characters off */
-            
-            let dataLength = data?.count
-            let r = 5...Int(dataLength!)
-            let newData = data?.subdata(in: Range(r)) /* subset response data! */
-            
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue))
-            
-            
-            
-            
-            if let error = error {
-                print(error)
-                completionHandler(false, "Logout Failed.")
-            } else {
-                completionHandler(true, nil)
-            }
-            
-            
-            
-        }
-        task.resume()
-        
-    }
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+            completionHandler(true, nil)
+
+        }
+        
+        task.resume()
+
+    }
+
     // MARK: Shared Instance
     
     class func sharedInstance() -> UdacityClient {
@@ -213,10 +162,5 @@ class UdacityClient: NSObject {
         }
         return Singleton.sharedInstance
     }
-    
-    
-    
-    
-    
-    
+
 }

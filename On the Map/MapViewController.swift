@@ -10,10 +10,7 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
-    
-    
 
-    
     // MARK: Outlets
     
     @IBOutlet weak var mapView: MKMapView!
@@ -30,11 +27,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        // Check Parse if current user has posted a location before
+        // Check if current user has already posted a location
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        ParseClient.sharedInstance().getUserLocations(userKey: UserInformation.userKey) { (success, error) in
+        ParseClient.sharedInstance().getUserLocation(userKey: UserInformation.userKey) { (success, error) in
             
             if success! {
                 
@@ -48,32 +45,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         let region = MKCoordinateRegion(center: location, span: span)
                         self.mapView.setRegion(region, animated: true)
                     }
-                    
-                    
+
                 }
                 
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
 
             } else {
 
-                // error
+                self.displayAlert(message: error!)
 
             }
             
         }
-        
-        
-        
 
-        // Get student data from Parse
+        // Get student locations
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        Helpers.sharedInstance().fetchStudentData() { (success, error) in
+        ParseClient.sharedInstance().getStudentLocations() { (success, error) in
             
-            if success {
+            if success! {
                 
-                // Remove map annotations and repopulate
+                // Remove annotations and repopulate map
                 performUIUpdatesOnMain {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.populateMap()
@@ -83,40 +76,36 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
             } else {
                 
-                // error
-                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.displayAlert(message: error!)
+
             }
             
         }
-        
-        
 
-        
-        
-
-        
     }
-    
-    
-    
-    
-    
+
     // MARK: Actions
     
     @IBAction func logoutPressed(_ sender: AnyObject) {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        UdacityClient.sharedInstance().deleteSession() { (success, errorString) in
+        UdacityClient.sharedInstance().deleteSession() { (success, error) in
+
             if success {
                 
-                let viewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
-                self.present(viewController, animated: true, completion: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                performUIUpdatesOnMain {
+                    let viewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
+                    self.present(viewController, animated: true, completion: nil)
+                }
                 
             } else {
                 
-                print("Failed to logout")
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.displayAlert(message: error!)
                 
             }
         }
@@ -127,74 +116,58 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        Helpers.sharedInstance().fetchStudentData() { (success, error) in
+        ParseClient.sharedInstance().getStudentLocations() { (success, error) in
             
-            if success {
+            if success! {
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 // Remove map annotations and repopulate
                 performUIUpdatesOnMain {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.populateMap()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
                 
             } else {
                 
-                // error
-                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.displayAlert(message: error!)
+
             }
-            
-            
-            
+
         }
 
-        
     }
     
-    
-    
-    
+    // MARK: Function to populate map with students
 
-    
-    
-    
-    //Function that populates the map with data
     func populateMap(){
-        
-        
+
+        // Store map annotations
         var annotations = [MKPointAnnotation]()
-        
-        /* For each student in the data */
+
         for s in StudentModel.sharedInstance.students {
             
-            /* Get the lat and lon values to create a coordinate */
+            // Create coordinate from latitude and longitude
             let lat = CLLocationDegrees(s.latitude)
             let lon = CLLocationDegrees(s.longitude)
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             
-            /* Make the map annotation with the coordinate and other student data */
+            // Create map annotation with coordinate, name and media URL
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "\(s.firstName) \(s.lastName)"
             annotation.subtitle = s.mediaURL
             
-            /* Add the annotation to the array */
+            // Add annotation to array
             annotations.append(annotation)
         }
-        
 
-        /* Add the annotations to the map */
+        // Add annotations to map
         self.mapView.addAnnotations(annotations)
 
-        
     }
 
-    
-    
-    
-    
-    
-    
     // MARK: Open annotation's mediaURL in browser when tapped
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -209,14 +182,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let mediaURL = URL(string: Helpers.sharedInstance().formatURL(url: ((view.annotation?.subtitle)!)!))
         UIApplication.shared.open(mediaURL!, options: [:], completionHandler: nil)
     }
-    
-
-    
-    
-    
-    
-
-
-
 
 }

@@ -10,10 +10,8 @@
 		E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42A1DAD652800040902 /* GCDBlackBox.swift */; };
 		E14DB42D1DAE41FB00040902 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42C1DAE41FB00040902 /* MapViewController.swift */; };
 		E14DB42F1DAE447F00040902 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB42E1DAE447F00040902 /* TableViewController.swift */; };
-		E14DB4311DAE87B200040902 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB4301DAE87B200040902 /* ParseConstants.swift */; };
 		E14DB4371DAE9D8200040902 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB4361DAE9D8200040902 /* ParseClient.swift */; };
 		E14DB43B1DB5249100040902 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43A1DB5249100040902 /* InformationPostingViewController.swift */; };
-		E14DB43D1DB5631E00040902 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43C1DB5631E00040902 /* AppConstants.swift */; };
 		E14DB43F1DB6540500040902 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB43E1DB6540500040902 /* UserInformation.swift */; };
 		E14DB4411DB6C6C100040902 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14DB4401DB6C6C100040902 /* Helpers.swift */; };
 		E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D80F31D97DB7300B4E754 /* AppDelegate.swift */; };
@@ -25,7 +23,6 @@
 		E17D81141D97DB7300B4E754 /* On_the_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D81131D97DB7300B4E754 /* On_the_MapUITests.swift */; };
 		E1FB90321DA54DB70050A0A5 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */; };
 		E1FB90341DA556960050A0A5 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90331DA556960050A0A5 /* UdacityClient.swift */; };
-		E1FB90361DA634330050A0A5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FB90351DA634330050A0A5 /* UdacityConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +46,8 @@
 		E14DB42A1DAD652800040902 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		E14DB42C1DAE41FB00040902 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E14DB42E1DAE447F00040902 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		E14DB4301DAE87B200040902 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		E14DB4361DAE9D8200040902 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		E14DB43A1DB5249100040902 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
-		E14DB43C1DB5631E00040902 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		E14DB43E1DB6540500040902 /* UserInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
 		E14DB4401DB6C6C100040902 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E17D80F01D97DB7300B4E754 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +65,6 @@
 		E17D81151D97DB7300B4E754 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		E1FB90331DA556960050A0A5 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
-		E1FB90351DA634330050A0A5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,20 +116,17 @@
 			isa = PBXGroup;
 			children = (
 				E17D80F31D97DB7300B4E754 /* AppDelegate.swift */,
-				E14DB43C1DB5631E00040902 /* AppConstants.swift */,
 				E14DB42A1DAD652800040902 /* GCDBlackBox.swift */,
 				E1FB90331DA556960050A0A5 /* UdacityClient.swift */,
-				E14DB4401DB6C6C100040902 /* Helpers.swift */,
-				E1FB90351DA634330050A0A5 /* UdacityConstants.swift */,
 				E14DB4361DAE9D8200040902 /* ParseClient.swift */,
-				E14DB4301DAE87B200040902 /* ParseConstants.swift */,
+				E14DB4401DB6C6C100040902 /* Helpers.swift */,
 				E14DB43E1DB6540500040902 /* UserInformation.swift */,
 				E1FB90311DA54DB70050A0A5 /* StudentInformation.swift */,
 				E17D80F51D97DB7300B4E754 /* LoginViewController.swift */,
 				E14DB42C1DAE41FB00040902 /* MapViewController.swift */,
 				E14DB42E1DAE447F00040902 /* TableViewController.swift */,
-				E17D80F71D97DB7300B4E754 /* Main.storyboard */,
 				E14DB43A1DB5249100040902 /* InformationPostingViewController.swift */,
+				E17D80F71D97DB7300B4E754 /* Main.storyboard */,
 				E17D80FA1D97DB7300B4E754 /* Assets.xcassets */,
 				E17D80FC1D97DB7300B4E754 /* LaunchScreen.storyboard */,
 				E17D80FF1D97DB7300B4E754 /* Info.plist */,
@@ -229,6 +220,7 @@
 				TargetAttributes = {
 					E17D80EF1D97DB7300B4E754 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = Z6P53X67RY;
 						ProvisioningStyle = Automatic;
 					};
 					E17D81031D97DB7300B4E754 = {
@@ -297,13 +289,10 @@
 			files = (
 				E1FB90341DA556960050A0A5 /* UdacityClient.swift in Sources */,
 				E14DB4411DB6C6C100040902 /* Helpers.swift in Sources */,
-				E1FB90361DA634330050A0A5 /* UdacityConstants.swift in Sources */,
 				E1FB90321DA54DB70050A0A5 /* StudentInformation.swift in Sources */,
 				E14DB42F1DAE447F00040902 /* TableViewController.swift in Sources */,
 				E17D80F61D97DB7300B4E754 /* LoginViewController.swift in Sources */,
-				E14DB4311DAE87B200040902 /* ParseConstants.swift in Sources */,
 				E14DB4371DAE9D8200040902 /* ParseClient.swift in Sources */,
-				E14DB43D1DB5631E00040902 /* AppConstants.swift in Sources */,
 				E14DB42B1DAD652800040902 /* GCDBlackBox.swift in Sources */,
 				E17D80F41D97DB7300B4E754 /* AppDelegate.swift in Sources */,
 				E14DB43F1DB6540500040902 /* UserInformation.swift in Sources */,
@@ -384,6 +373,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -434,6 +424,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -460,6 +451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Z6P53X67RY;
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.andreas.On-the-Map";
@@ -473,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Z6P53X67RY;
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.andreas.On-the-Map";

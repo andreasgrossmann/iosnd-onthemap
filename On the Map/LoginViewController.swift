@@ -8,164 +8,121 @@
 
 import UIKit
 
-// MARK: - LoginViewController: UIViewController
-
-class LoginViewController: UIViewController {
-    
-    var userKey: String = ""
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: Outlets
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var debugTextLabel: UILabel!
+    @IBOutlet weak var signUpButton: UIButton!
     
-    // MARK: Life Cycle
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        hideKeyboardWhenTapAnywhere()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-
-    
-    
     // MARK: Actions
     
     @IBAction func loginPressed(_ sender: AnyObject) {
-        
 
-        
         setUIEnabled(enabled: false)
         
-        /* Check for username */
+        // Check for username
         guard emailTextField.text != "" else {
             displayAlert(message: "Please enter your username.")
             setUIEnabled(enabled: true)
             return
         }
         
-        /* Check for password */
+        // Check for password
         guard passwordTextField.text != "" else {
             displayAlert(message: "Please enter your password.")
             setUIEnabled(enabled: true)
             return
         }
-        
 
-        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
-        /* Try to log the user in */
-        UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (userKey, errorString) in
-            
-            
-            performUIUpdatesOnMain {
-                if let userKey = userKey {
-                    
-                    self.getStudentWithUserKey(userKey: userKey)
+        // Log user in
+        // Request session ID
+        UdacityClient.sharedInstance().getSessionId(username: emailTextField.text!, password: passwordTextField.text!) { (userKey, error) in
+
+            if let userKey = userKey {
                 
-                } else {
+                // Identify student with user key
+                UdacityClient.sharedInstance().studentWithUserKey(userKey: userKey) { (success, error) in
+
+                    if success! {
+                        self.completeLogin()
+                    } else {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        self.displayAlert(message: error!)
+                    }
                     
-                    /* Enable the UI again and show the error */
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    self.setUIEnabled(enabled: true)
-                    self.displayAlert(message: errorString!)
-                        
                 }
-            }
+            
+            } else {
+
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
+                // Enable UI again and show error
+                self.setUIEnabled(enabled: true)
+                self.displayAlert(message: error!)
+
+            }
+
         }
-        
-        
-        
+
     }
-    
-    
-    
-    
+
     @IBAction func signUpPressed(_ sender: AnyObject) {
-        let url = URL(string: "https://www.udacity.com/account/auth#!/signup")!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if let url = URL(string: "https://www.udacity.com/account/auth#!/signup") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            displayAlert(message: "Something's not quite right. Please try again later.")
+        }
     }
+
+    // MARK: Hide keyboard when return key is pressed and perform submit action
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        loginButton.sendActions(for: .touchUpInside)
+        return false
+    }
+
+    // MARK: Complete login
     
-    
-    
-    
-    
-    
-    
-    // GET Student Data
-    
-    func getStudentWithUserKey(userKey: String) {
-        UdacityClient.sharedInstance().studentWithUserKey(userKey: userKey) { (success, error) in
-            performUIUpdatesOnMain {
-                if success! {
-                    self.completeLogin()
-                } else {
-                    // error
-                }
-            }
+    func completeLogin() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        performUIUpdatesOnMain {
+            let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+            self.present(controller, animated: true, completion: nil)
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    // MARK: Login
-    
-    private func completeLogin() {
-//        debugTextLabel.text = ""
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        let controller = storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-        present(controller, animated: true, completion: nil)
-    }
-    
-    
-    
-
-    
-
-}
-
-
-
-
-
-
-
-// MARK: - LoginViewController (Configure UI)
-
-extension LoginViewController {
+    // MARK: UI state
     
     func setUIEnabled(enabled: Bool) {
+        
         loginButton.isEnabled = enabled
         
-        // Set button title
-        if enabled {
-            loginButton.setTitle("LOGIN", for: UIControlState.normal)
-        } else {
-            loginButton.setTitle("We're logging you in...", for: UIControlState.disabled)
+        performUIUpdatesOnMain {
+            // Set button title
+            if enabled {
+                self.loginButton.setTitle("LOGIN", for: UIControlState.normal)
+            } else {
+                self.loginButton.setTitle("We're logging you in...", for: UIControlState.disabled)
+            }
         }
+
     }
-    
-//    func displayError(errorString: String?) {
-//        if let errorString = errorString {
-//            debugTextLabel.text = errorString
-//        }
-//    }
-    
 
 }
-

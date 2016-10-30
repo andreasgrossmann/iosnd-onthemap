@@ -10,52 +10,9 @@ import Foundation
 import UIKit
 
 class Helpers: NSObject {
-    
-    
-    
 
-    // Completion handler for this ensures that app won't attempt to populate map or table view until student data is available
+    // MARK: Format URLs
     
-    func fetchStudentData(completionHandler: @escaping (_ success: Bool, _ error: Bool) -> Void) {
-        
-        /* Fetch student data */
-        ParseClient.sharedInstance().getStudentLocations() { (result, error) in
-            
-            
-            
-            if result != nil {
-                
-                StudentModel.sharedInstance.students = StudentInformation.studentFromResult(results: result?["results"] as! [[String: AnyObject]])
-                
-                //                    print(StudentModel.sharedInstance.students)
-                
-                completionHandler(true, false)
-                
-                
-            } else {
-                
-                print(error)
-                
-            }
-            
-            
-        }
-        
-        
-    }
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    // remove spaces from url and add missing http:
     func formatURL(url: String) -> String {
         var formattedURL = url
         if formattedURL.characters.first != "h"  && formattedURL.characters.first != "H"{
@@ -63,12 +20,8 @@ class Helpers: NSObject {
         }
         return String(formattedURL.characters.filter { !" ".characters.contains($0) })
     }
-    
-    
-    
-    
-    
-    // MARK: Shared Instance
+
+    // MARK: Shared instance
     
     class func sharedInstance() -> Helpers {
         struct Singleton {
@@ -79,24 +32,28 @@ class Helpers: NSObject {
     
 }
 
-
-
-
-
-
-
-
 extension UIViewController {
     
-    // MARK: Display Alert
+    // MARK: Display alert
     
     func displayAlert(message: String, completionHandler: ((UIAlertAction) -> Void)? = nil) {
         performUIUpdatesOnMain {
             
             let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: AppConstants.AlertActions.gotIt, style: .default, handler: completionHandler))
+            alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: completionHandler))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    // MARK: Tap anywhere dismisses keyboard
+    
+    func hideKeyboardWhenTapAnywhere() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
 }

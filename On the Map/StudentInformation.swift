@@ -8,9 +8,11 @@
 
 import Foundation
 
+// MARK: Student information
+
 struct StudentInformation {
     
-    var createdAt: NSString
+    var createdAt: String
     var firstName: String
     var lastName: String
     var latitude: Float
@@ -19,41 +21,55 @@ struct StudentInformation {
     var mediaURL: String
     var objectId: String
     var uniqueKey: String
-    var updatedAt: NSString
+    var updatedAt: String
     
-    //constructing student from dictionary
+    // Construct student information from dictionary
+    
     init?(dictionary: [String: AnyObject]) {
+
+        guard let created = dictionary["createdAt"] as? String else { return nil }
+        createdAt = created
+        
+        guard let first = dictionary["firstName"] as? String else { return nil }
+        firstName = first
+        
+        guard let last = dictionary["lastName"] as? String else { return nil }
+        lastName = last
+        
+        guard let lat = dictionary["latitude"] as? Float else { return nil }
+        latitude = lat
+        
+        guard let lon = dictionary["longitude"] as? Float else { return nil }
+        longitude = lon
+
+        guard let map = dictionary["mapString"] as? String else { return nil }
+        mapString = map
+        
+        guard let media = dictionary["mediaURL"] as? String else { return nil }
+        mediaURL = media
+        
+        guard let object = dictionary["objectId"] as? String else { return nil }
+        objectId = object
+        
         guard let unique = dictionary["uniqueKey"] as? String else { return nil }
         uniqueKey = unique
-        
-        createdAt = dictionary["createdAt"] as! NSString
-        firstName = dictionary["firstName"] as! String
-        lastName = dictionary["lastName"] as! String
-        latitude = dictionary["latitude"] as! Float
-        longitude = dictionary["longitude"] as! Float
-        mapString = dictionary["mapString"] as! String
-        mediaURL = dictionary["mediaURL"] as! String
-        objectId = dictionary["objectId"] as! String
-//        uniqueKey = dictionary["uniqueKey"] as! String
-        updatedAt = dictionary["updatedAt"] as! NSString
+
+        guard let updated = dictionary["updatedAt"] as? String else { return nil }
+        updatedAt = updated
         
     }
     
     static func studentFromResult(results: [[String: AnyObject]]) -> [StudentInformation] {
 
-        
         var students = [StudentInformation]()
 
         for result in results {
 
             if let studentInfo = StudentInformation(dictionary: result) {
                 students.append(studentInfo)
-            
-//            students.append(StudentInformation(dictionary: result))
 
             }
-        
-        
+
         }
         
         return students
@@ -62,9 +78,7 @@ struct StudentInformation {
 
 }
 
-
-
-
+// MARK: Student model
 
 class StudentModel {
     
