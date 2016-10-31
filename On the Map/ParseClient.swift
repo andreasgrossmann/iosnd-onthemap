@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ParseClient: NSObject {
+class ParseClient {
     
     // MARK: Properties
     

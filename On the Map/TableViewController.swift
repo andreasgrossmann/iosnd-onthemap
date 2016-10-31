@@ -76,15 +76,7 @@ class TableViewController: UITableViewController {
         
         let thisRowStudent = StudentModel.sharedInstance.students[indexPath.row]
         
-        if thisRowStudent.uniqueKey == UserInformation.userKey {
-        
-            return true
-            
-        } else {
-            
-            return false
-            
-        }
+        return thisRowStudent.uniqueKey == UserInformation.userKey
 
     }
     

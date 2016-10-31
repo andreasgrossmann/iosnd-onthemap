@@ -39,9 +39,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         performUIUpdatesOnMain {
             self.configureUI(state: .MapString)
         }
-
-        mediaURLTextField.delegate = self
-        mapStringTextField.delegate = self
         
         hideKeyboardWhenTapAnywhere()
 
@@ -53,7 +50,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         // Check if user has already posted a location
         guard UserInformation.mapString.isEmpty else {
             
-            self.displayAlert(message: "Looks like you already posted a location. If you continue, we'll update your previous location.")
+            displayAlert(message: "Looks like you already posted a location. If you continue, we'll update your previous location.")
             
             performUIUpdatesOnMain {
                 // Set mapString text to previously posted location

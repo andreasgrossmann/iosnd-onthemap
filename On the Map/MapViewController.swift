@@ -17,15 +17,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: Lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        mapView.delegate = self
-
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
 
         // Check if current user has already posted a location
         
@@ -164,7 +157,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
 
         // Add annotations to map
-        self.mapView.addAnnotations(annotations)
+        mapView.addAnnotations(annotations)
 
     }
 

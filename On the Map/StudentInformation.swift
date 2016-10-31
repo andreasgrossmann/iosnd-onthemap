@@ -13,14 +13,14 @@ import Foundation
 struct StudentInformation {
     
     var createdAt: String
-    var firstName: String
-    var lastName: String
+    let firstName: String
+    let lastName: String
     var latitude: Float
     var longitude: Float
     var mapString: String
     var mediaURL: String
     var objectId: String
-    var uniqueKey: String
+    let uniqueKey: String
     var updatedAt: String
     
     // Construct student information from dictionary
@@ -76,13 +76,4 @@ struct StudentInformation {
     
     }
 
-}
-
-// MARK: Student model
-
-class StudentModel {
-    
-    var students: [StudentInformation] = []
-    
-    static let sharedInstance = StudentModel()
 }

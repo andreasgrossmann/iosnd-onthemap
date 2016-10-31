@@ -8,12 +8,15 @@
 
 import Foundation
 
-class UdacityClient: NSObject {
+class UdacityClient {
     
     // MARK: Properties
     
     // Shared session
     var session = URLSession.shared
+    
+    // (Magic) number of security characters to skip of Udacity API response
+    let securityChars = 5
 
     // MARK: Request user key
     
@@ -47,10 +50,10 @@ class UdacityClient: NSObject {
                 return
             }
 
-            /* Strip first 5 characters off */
+            /* Skip security characters */
             
             let dataLength = data.count
-            let r = 5...Int(dataLength)
+            let r = self.securityChars...Int(dataLength)
             let newData = data.subdata(in: Range(r)) /* subset response data! */
 
             /* Parse and use data */
@@ -96,9 +99,11 @@ class UdacityClient: NSObject {
                 completionHandler(nil, "Your request didn't return any data. Please try again later.")
                 return
             }
+            
+            /* Skip security characters */
 
             let dataLength = data.count
-            let r = 5...Int(dataLength)
+            let r = self.securityChars...Int(dataLength)
             let newData = data.subdata(in: Range(r)) /* subset response data! */
 
             /* Parse and use data */
